@@ -1,25 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-
+from .models import handle_uploaded_file  
+from .forms import browse
+import os
 from invoice2data import extract_data
 
-result = extract_data('pdfextractor/FlipkartInvoice.pdf')
+#--------------------------------------------------------------
+file_list = os.listdir("pdfextractor/static/upload")
+print(file_list)   
+#--------------------------------------------------------------
 
-'''result = [{'issuer': 'Flipkart', 
-        'amount': 319.0, 
-        'date': 'datetime.datetime(2015, 10, 20, 0, 0)', 
-        'invoice_number': '#BLR_WFLD20151000982590', 
-        'order_id': 'OD304175096047380001', 
-        'currency': 'INR', 
-        'desc': 'Invoice'}]'''
-print(result)
+#----------------------------------------------------------------------------
 
-# Create your views here.
-def home(request):
-    context = {
-        'result':result
-    }
-    return (render(request,'pdfextractor/test.html',context))
-
-def about(request):
-    return (HttpResponse('<h1> Exract Pdf invoices about </h1>'))
+def index(request):
+    result = None
+    form = None
+    if request.method == 'POST':  
+        form = browse(request.POST, request.FILES)  
+        if form.is_valid():  
+            handle_uploaded_file(request.FILES['file']) # store file in upload folder
+            path = "pdfextractor/static/upload/"+ str(request.FILES['file'])#path of selected file
+            result = extract_data(path) # extract data from file
+    else:
+        form = browse()
+    context = {"form": form, "result": result}
+    return render(request,'pdfextractor/index.html', context)

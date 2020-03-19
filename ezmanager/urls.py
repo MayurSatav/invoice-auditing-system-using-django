@@ -19,5 +19,4 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pdfextractor/', include('pdfextractor.urls')),
-    path('ezm_pdfexe/', include('pdfextractor.urls')),
 ]

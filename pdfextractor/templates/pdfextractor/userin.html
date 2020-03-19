@@ -1,0 +1,10 @@
+<form method="GET">
+    Question: <input type="text" name="search"><br/>
+    Name: <input type="text" name="name"><br/>
+    <input type="submit" value="Submit" />
+</form><br/><br/>
+
+
+{% for question in questions %}
+<p>{{question}}</p>
+{% endfor %}

@@ -1,0 +1,13 @@
+<body>  
+    <form method="POST" class="post-form" enctype="multipart/form-data">  
+            {% csrf_token %}  
+            {{ form.as_p }}  
+            
+            <input type="Submit" name="submit" value="Submit"/>
+    </form>
+
+    {% for key, value in result.items %}
+    <h6>{{key}} : {{value}}</h6>
+    {% endfor %}
+    <h3>hello</h3>
+</body>  

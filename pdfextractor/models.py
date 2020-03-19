@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+
+def handle_uploaded_file(f):
+    with open('pdfextractor/static/upload/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
